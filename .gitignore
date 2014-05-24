@@ -1,0 +1,9 @@
+django_datetime_utc.egg-info/
+*.pyc
+build/
+dist/
+*.DS_Store
+.*project
+.settings
+.coverage
+.idea
