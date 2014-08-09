@@ -82,7 +82,7 @@ would:
         def save_model(self, request, obj, form, change):
             obj.stuff_time = obj.stuff_time.replace(
                 tzinfo=tz.gettz(settings.TIME_ZONE))
-            obj.save()
+            super(StuffAdmin, self).save_model(request, obj, form, change)
 
     admin.site.register(Stuff, StuffAdmin)
 

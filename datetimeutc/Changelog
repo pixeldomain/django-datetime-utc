@@ -1,0 +1,9 @@
+v1.0.1
+======
+Updated README.rst
+Added tests. Django app with unit tests included
+
+
+v1.0.0
+======
+Initial release
