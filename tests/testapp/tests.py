@@ -1,9 +1,38 @@
 import datetime
+import logging
+
 from dateutil import tz
+from django import  test
 from django.conf import settings
-from django.test import TestCase
+from django.core.management import sql
+from django.core.management import color
+from django.db import connection, DatabaseError
+from django.db.models import loading
 from django.utils import timezone
+
 from testapp.models import TestModel
+
+LOGGER = logging.getLogger(__name__)
+
+class TestCase(test.TestCase):
+
+    @classmethod
+    def setUpClass(cls, *args, **kwargs):
+        cls._create_test_models()
+        super(TestCase, cls).setUpClass(*args, **kwargs)
+
+    @classmethod
+    def _create_test_models(cls, app_name='testapp'):
+        """Create dynamic test models, defaulted to models registered at app_name.models.py"""
+
+        app = loading.load_app(app_name)
+        create_sql = sql.sql_create(app, color.no_style(), connection)
+        cursor = connection.cursor()
+        for statement in create_sql:
+            try:
+                cursor.execute(statement)
+            except DatabaseError, ex:
+                LOGGER.debug(ex.message)
 
 
 class ModelTests(TestCase):
