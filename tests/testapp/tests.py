@@ -31,8 +31,8 @@ class TestCase(test.TestCase):
         for statement in create_sql:
             try:
                 cursor.execute(statement)
-            except DatabaseError, ex:
-                LOGGER.debug(ex.message)
+            except DatabaseError as ex:
+                LOGGER.debug(ex)
 
 
 class ModelTests(TestCase):
