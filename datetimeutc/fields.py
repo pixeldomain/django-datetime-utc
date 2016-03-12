@@ -15,8 +15,6 @@ class DateTimeUTCField(models.DateTimeField):
 
     description = "Date (with time and no time zone)"
 
-    __metaclass__ = models.SubfieldBase
-
     def __init__(self, *args, **kwargs):
         super(DateTimeUTCField, self).__init__(*args, **kwargs)
 
@@ -26,7 +24,7 @@ class DateTimeUTCField(models.DateTimeField):
         else:
             return 'timestamp'
 
-    def to_python(self, value):
+    def from_db_value(self, value, expression, connection, context):
         if value is None:
             return value
         if isinstance(value, datetime.datetime):

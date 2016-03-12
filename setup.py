@@ -9,6 +9,7 @@ LONG_DESCRIPTION = """
 django-datetime-utc provides DateTimeUTCField, a naive datetime model field.
 In PostgreSQL this translates to the field 'timestamp without time zone'."""
 
+
 def long_description():
     try:
         return open(join(dirname(__file__), 'README.rst')).read()
@@ -18,7 +19,7 @@ def long_description():
 setup(
     name="django-datetime-utc",
     version=version,
-    description="Django UTC datetime model field - timestamp without time zone",
+    description="Django UTC datetime field - timestamp without time zone",
     long_description=long_description(),
     url='https://github.com/pixeldomain/django-datetime-utc',
     author='Darren O\'Neill',
@@ -41,5 +42,5 @@ setup(
     ],
     keywords='django, timestamp without time zone, utc, datetime',
     packages=['datetimeutc'],
-    install_requires = ['Django>=1.5.0', 'python-dateutil'],
+    install_requires=['Django>=1.5.0', 'python-dateutil'],
 )

@@ -2,7 +2,7 @@ import datetime
 import logging
 
 from dateutil import tz
-from django import  test
+from django import test
 from django.conf import settings
 from django.core.management import sql
 from django.core.management import color
@@ -14,6 +14,7 @@ from testapp.models import TestModel
 
 LOGGER = logging.getLogger(__name__)
 
+
 class TestCase(test.TestCase):
 
     @classmethod
@@ -23,7 +24,10 @@ class TestCase(test.TestCase):
 
     @classmethod
     def _create_test_models(cls, app_name='testapp'):
-        """Create dynamic test models, defaulted to models registered at app_name.models.py"""
+        """Create dynamic test models.
+
+        Defaulted to models registered at app_name.models.py
+        """
 
         app = loading.load_app(app_name)
         create_sql = sql.sql_create(app, color.no_style(), connection)
