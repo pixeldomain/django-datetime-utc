@@ -24,7 +24,7 @@ class DateTimeUTCField(models.DateTimeField):
         else:
             return 'timestamp'
 
-    def from_db_value(self, value, expression, connection, context):
+    def from_db_value(self, value, expression, connection):
         if value is None:
             return value
         if isinstance(value, datetime.datetime):

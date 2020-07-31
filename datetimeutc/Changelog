@@ -1,3 +1,8 @@
+v1.0.3
+======
+Update for Django 3. Support for the context argument of Field.from_db_value() was removed
+
+
 v1.0.2
 ======
 Fix Django 1.10 deprecation warnings
