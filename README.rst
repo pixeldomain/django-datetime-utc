@@ -21,7 +21,7 @@ Features
 - Saves all timestamps in UTC
 - Values automatically converted to local time (specified by ``TIME_ZONE`` in your project settings.py) in forms and templates
 
-Install
+Installation
 -------
 From PyPi:
 ::
@@ -52,7 +52,7 @@ In ``models.py``:
         stuff_time = DateTimeUTCField()
         submitted = DateTimeUTCField(auto_now_add=True)
 
-Notes
+Stuff:
 -----
 
 If your code creates datetime objects, they should always be TZ aware so they
