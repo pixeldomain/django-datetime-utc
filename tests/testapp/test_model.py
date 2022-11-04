@@ -1,53 +1,30 @@
 import datetime
-import logging
 
 from dateutil import tz
-from django import test
 from django.conf import settings
-from django.core.management import sql
-from django.core.management import color
-from django.db import connection, DatabaseError
-from django.db.models import loading
+from django.core.management import call_command
+from django.test import TestCase
 from django.utils import timezone
 
 from testapp.models import TestModel
 
-LOGGER = logging.getLogger(__name__)
 
-
-class TestCase(test.TestCase):
+class BaseTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls, *args, **kwargs):
-        cls._create_test_models()
-        super(TestCase, cls).setUpClass(*args, **kwargs)
-
-    @classmethod
-    def _create_test_models(cls, app_name='testapp'):
-        """Create dynamic test models.
-
-        Defaulted to models registered at app_name.models.py
-        """
-
-        app = loading.load_app(app_name)
-        create_sql = sql.sql_create(app, color.no_style(), connection)
-        cursor = connection.cursor()
-        for statement in create_sql:
-            try:
-                cursor.execute(statement)
-            except DatabaseError as ex:
-                LOGGER.debug(ex)
+        call_command('migrate', '--noinput')
+        super(BaseTestCase, cls).setUpClass(*args, **kwargs)
 
 
-class ModelTests(TestCase):
+class ModelTests(BaseTestCase):
 
     def setUp(self):
         self.local_now = datetime.datetime.now().replace(tzinfo=tz.gettz(
             settings.TIME_ZONE))
         self.utc_now = self.local_now.astimezone(tz.gettz('UTC'))
         self.test_model = TestModel.objects.create(
-            name='Test', time_set_manually=self.utc_now
-        )
+            name='Test', time_set_manually=self.utc_now)
 
     def test_auto_add_now_works_as_expected(self):
         self.assertTrue(timezone.is_aware(self.test_model.time_auto_added))
@@ -60,8 +37,8 @@ class ModelTests(TestCase):
         self.test_model.save()
 
         self.assertTrue(timezone.is_aware(self.test_model.time_auto_updated))
-        self.assertGreater(self.test_model.time_auto_updated,
-                           self.test_model.time_auto_added)
+        self.assertGreater(
+            self.test_model.time_auto_updated, self.test_model.time_auto_added)
         self.assertEqual(
             self.test_model.time_auto_updated.tzinfo.utcoffset(
                 self.test_model.time_auto_updated), datetime.timedelta(0))
@@ -77,8 +54,7 @@ class ModelTests(TestCase):
         self.assertEqual(
             self.test_model.time_set_manually.astimezone(
                 tz.gettz(settings.TIME_ZONE)),
-            self.local_now
-        )
+            self.local_now)
 
     def test_null_datetime_value_is_supported(self):
         another_test_model = TestModel.objects.create(name='Test 2')

@@ -3,15 +3,10 @@ from dateutil import tz
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
-try:
-    from south.modelsinspector import add_introspection_rules
-    add_introspection_rules([], ["^datetimeutc\.fields\.DateTimeUTCField"])
-except ImportError:
-    pass
 
 
 class DateTimeUTCField(models.DateTimeField):
-    """Creates a DB timestamp field that is TZ naive."""
+    """Create a DB timestamp field that is TZ naive."""
 
     description = "Date (with time and no time zone)"
 
