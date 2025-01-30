@@ -1,0 +1,70 @@
+[tool.poetry]
+name = "django-datetime-utc"
+version = "1.0.5"
+description = "Django UTC datetime field - timestamp without time zone"
+authors = ["Darren O'Neill <darren@pixeldomain.co.uk>"]
+readme = "README.md"
+classifiers = [
+    "Framework :: Django",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Topic :: Internet",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+license = "MIT"
+repository = "https://github.com/pixeldomain/django-datetime-utc"
+keywords = ["django", "timestamp without time zone", "utc", "datetime"]
+include = ["README.md"]
+packages = [
+  { include = "datetimeutc", from = "." }
+]
+
+[tool.poetry.dependencies]
+python = "<4.0,>=3.10"
+Django = ">=4.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+pylint = "^3.3.4"
+black = "^24.10.0"
+isort = "^6.0.0"
+mypy = "^1.14.1"
+pylint-django = "^2.6.1"
+django-stubs = {extras = ["compatible-mypy"], version = "^5.1.2"}
+psycopg = "^3.2.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint.main]
+load-plugins = ["pylint_django"]
+ignore = ["migrations"]
+
+[tool.pylint."messages control"]
+disable = [
+    "missing-function-docstring",
+    "missing-class-docstring",
+    "missing-module-docstring",
+    "django-not-configured"
+]
+
+[tool.isort]
+profile = "black"
+src_paths = ["datetimeutc", "tests"]
+force_single_line = true
+use_parentheses = true
+star_first = true
+skip = "migrations"
+
+[tool.black]
+include = '\.pyi?$'
+extend-exclude = '''
+/
+(migrations)
+/
+'''

@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.5
+
+- Replace setup.py with pyproject.toml
+- Remove python-dateutil dependency (PEP 495)
+
+
 ## v1.0.4
 
 - Removed support for south (now deprecated)
