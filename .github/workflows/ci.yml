@@ -10,7 +10,13 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        DJANGO_VERSION: ['django>=4.2,<5.0', 'django>=5.0,<5.1', 'django>=5.1,<6.0']
+        DJANGO_VERSION:
+          [
+            "django>=4.2,<5.0",
+            "django>=5.0,<5.1",
+            "django>=5.1,<5.2",
+            "django>=5.2,<6.0",
+          ]
     services:
       postgres:
         image: postgres:15
@@ -26,35 +32,35 @@ jobs:
         ports:
           - 5432:5432
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    - name: Set up Python 3.13
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.13'
-    - name: Install Poetry
-      uses: snok/install-poetry@v1
-      with:
-        version: 2.0.1
-    - name: Install dependencies
-      run: poetry install --no-interaction
-    - name: Use ${{ matrix.DJANGO_VERSION }}
-      run: poetry add "${{ matrix.DJANGO_VERSION }}"
-    - name: Check code formatting
-      run: |
-        poetry run black --config=pyproject.toml --check datetimeutc
-        poetry run black --config=pyproject.toml --check tests
-    - name: Check import sort order
-      run: |
-        poetry run isort --settings=pyproject.toml --check datetimeutc
-        poetry run isort --settings=pyproject.toml --check tests
-    - name: Check code linter
-      run: |
-        poetry run pylint --rcfile pyproject.toml datetimeutc
-        poetry run pylint --rcfile pyproject.toml tests
-    - name: Check static types
-      run: |
-        poetry run mypy --config-file pyproject.toml datetimeutc
-        poetry run mypy --config-file pyproject.toml tests
-    - name: Run unit tests
-      run: DJANGO_SETTINGS_MODULE="settings" poetry run pytest
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 2.0.1
+      - name: Install dependencies
+        run: poetry install --no-interaction
+      - name: Use ${{ matrix.DJANGO_VERSION }}
+        run: poetry add "${{ matrix.DJANGO_VERSION }}"
+      - name: Check code formatting
+        run: |
+          poetry run black --config=pyproject.toml --check datetimeutc
+          poetry run black --config=pyproject.toml --check tests
+      - name: Check import sort order
+        run: |
+          poetry run isort --settings=pyproject.toml --check datetimeutc
+          poetry run isort --settings=pyproject.toml --check tests
+      - name: Check code linter
+        run: |
+          poetry run pylint --rcfile pyproject.toml datetimeutc
+          poetry run pylint --rcfile pyproject.toml tests
+      - name: Check static types
+        run: |
+          poetry run mypy --config-file pyproject.toml datetimeutc
+          poetry run mypy --config-file pyproject.toml tests
+      - name: Run unit tests
+        run: DJANGO_SETTINGS_MODULE="settings" poetry run pytest
