@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.6
+
+- Django 6 support
+
 ## v1.0.5
 
 - Replace setup.py with pyproject.toml
