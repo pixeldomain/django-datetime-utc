@@ -29,7 +29,7 @@ Django = ">=4.2"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"
 pylint = "^3.3.4"
-black = "^24.10.0"
+black = ">=24.10,<27.0"
 isort = "^6.0.0"
 mypy = "^1.14.1"
 pylint-django = "^2.6.1"
